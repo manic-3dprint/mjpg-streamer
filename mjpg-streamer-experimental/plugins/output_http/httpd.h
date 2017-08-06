@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software                  #
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA    #
 #                                                                              #
-*******************************************************************************/
+ *******************************************************************************/
 
 #define IO_BUFFER 256
 #define BUFFER_SIZE 1024
@@ -64,20 +64,20 @@ static const struct {
     const char *dot_extension;
     const char *mimetype;
 } mimetypes[] = {
-    { ".html", "text/html" },
-    { ".htm",  "text/html" },
-    { ".css",  "text/css" },
-    { ".js",   "text/javascript" },
-    { ".txt",  "text/plain" },
-    { ".jpg",  "image/jpeg" },
-    { ".jpeg", "image/jpeg" },
-    { ".png",  "image/png"},
-    { ".gif",  "image/gif" },
-    { ".ico",  "image/x-icon" },
-    { ".swf",  "application/x-shockwave-flash" },
-    { ".cab",  "application/x-shockwave-flash" },
-    { ".jar",  "application/java-archive" },
-    { ".json", "application/json" }
+    { ".html", "text/html"},
+    { ".htm", "text/html"},
+    { ".css", "text/css"},
+    { ".js", "text/javascript"},
+    { ".txt", "text/plain"},
+    { ".jpg", "image/jpeg"},
+    { ".jpeg", "image/jpeg"},
+    { ".png", "image/png"},
+    { ".gif", "image/gif"},
+    { ".ico", "image/x-icon"},
+    { ".swf", "application/x-shockwave-flash"},
+    { ".cab", "application/x-shockwave-flash"},
+    { ".jar", "application/java-archive"},
+    { ".json", "application/json"}
 };
 
 /* the webserver determines between these values for an answer */
@@ -94,9 +94,9 @@ typedef enum {
     A_INPUT_JSON,
     A_OUTPUT_JSON,
     A_PROGRAM_JSON,
-    #ifdef MANAGMENT
+#ifdef MANAGMENT
     A_CLIENTS_JSON
-    #endif
+#endif
 } answer_t;
 
 /*
@@ -113,7 +113,7 @@ typedef struct {
 
 /* the iobuffer structure is used to read from the HTTP-client */
 typedef struct {
-    int level;              /* how full is the buffer */
+    int level; /* how full is the buffer */
     char buffer[IO_BUFFER]; /* the data */
 } iobuffer;
 
@@ -124,6 +124,8 @@ typedef struct {
     char *credentials;
     char *www_folder;
     char nocommands;
+    int fd; // named pipe file descriptor
+    int flag;
 } config;
 
 /* context of each server thread */
@@ -139,6 +141,7 @@ typedef struct {
 
 
 #if defined(MANAGMENT)
+
 /*
  * this struct is used to hold information from the clients address, and last picture take time
  */
@@ -163,9 +166,9 @@ struct {
 typedef struct {
     context *pc;
     int fd;
-    #ifdef MANAGMENT
+#ifdef MANAGMENT
     client_info *client;
-    #endif
+#endif
 } cfd;
 
 

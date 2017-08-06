@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://rpi3.home:8080/robot.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>MJPG Streaming</title>
+        
+    <style>
+        .buttons {
+            width:6em;
+            font-size: 0.8em; 
+        }
+        #pad {
+            position:relative;
+            //top:1em;
+        }
+        #up {
+            position:relative;
+            left: 8em;            
+        } 
+        #left {
+            position:relative;
+            left: 1em;
+            top: 1em;
+        }
+        #center {
+            position:relative;
+            left: 8em;
+            top: -0.8em;
+        }
+        #right {
+            position:relative;
+            left: 15em;
+            top: -2.7em;
+        }
+        #down {
+            width:6em;
+            position:relative;
+            left: 8em;
+            top: -1.7em;
+        }
+        #mode {
+            width:12em;
+            position:relative;
+            left: 5em;
+            top: 4.5em;
+        }
+    </style><script type="text/javascript">
+
+        function move(id) {
+            var url = '/?action=command&dest=1&plugin=0&group=1001&value=0&id=' + id;
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", url);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    //document.getElementById("output").innerHTML = this.responseText;
+
+                    if (this.responseText === "6: 0")
+                        document.getElementById("output2").innerHTML = "Auto Mode: false";
+                    else if (this.responseText === "6: 1")
+                        document.getElementById("output2").innerHTML = "Auto Mode: true";
+                    else
+                        document.getElementById("output").innerHTML = this.responseText;
+
+                }
+            };
+        }
+    </script><style type="text/css">@media print{#STTBimg{ display:none; }#STTBimg2{ display:none; }}</style></head>   
+    
+    
+    <body style="margin:1em;" onload=""><img id="STTBimg" src="chrome-extension://chinfkfmaefdlchhempbfgbdagheknoj/arrows/arrow_blue.png" style="transform: rotate(-180deg); opacity: 0.5; position: fixed; width: 50px; height: auto; z-index: 2147483647; border: 0px; padding: 0px; right: 20px; top: 50%; margin: -25px 0px 0px; cursor: pointer;">
+        <img src="/?action=stream">
+        <br><br>
+        <div id="pad">
+            <input class="buttons" id="up" type="button" value="Forward" onclick="move(2);move(3)"><br>
+            <input class="buttons" id="left" type="button" value="Left" onclick="move(4);move(3)"><br>            
+            <input class="buttons" id="center" type="button" value="Stand" onclick="move(3)"><br>
+            <input class="buttons" id="right" type="button" value="Right" onclick="move(5);move(3)"><br>
+            <input class="buttons" id="down" type="button" value="Backward" onclick="move(1);move(3)"><br>
+            <input class="buttons" id="mode" type="button" value="Toggle Auto On/Off" onclick="move(6)"><br>
+        </div>
+        <br><br><br><br>
+        <div id="output">0: 0</div>
+        <div id="output2">Auto Mode: false</div>
+	</body>
+</html>
