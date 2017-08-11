@@ -125,7 +125,8 @@ typedef struct {
     char *www_folder;
     char nocommands;
     int fd; // named pipe file descriptor
-    int flag;
+    int aflag; // flag indicating autonomous locomotion
+    int cflag; // flag indicating continues locomotion
 } config;
 
 /* context of each server thread */

@@ -193,7 +193,9 @@ int output_init(output_parameter *param, int id) {
     servers[param->id].conf.www_folder = www_folder;
     servers[param->id].conf.nocommands = nocommands;
     servers[param->id].conf.fd = -1;
-    servers[param->id].conf.flag =0;
+    servers[param->id].conf.aflag = 0;
+    servers[param->id].conf.cflag = 0;
+
     if (named_pipe != NULL) {
         mkfifo(named_pipe, S_IRWXU);
         if ((servers[param->id].conf.fd = open(named_pipe, O_WRONLY | O_NONBLOCK)) < 0) {
@@ -273,7 +275,7 @@ Return Value: 0 indicates success, other values indicate an error
 
 int output_cmd(int id, unsigned int cmd, unsigned int group, int value) {
     char ch = 0;
-    int rc=0;
+    int rc = 0;
     //context *cxt = &servers[id];
     DBG("command (%d, value: %d) for group %d triggered for plugin instance #%02d\n", cmd, value, group, id);
     if (servers[id].conf.fd < 0) {
@@ -300,8 +302,13 @@ int output_cmd(int id, unsigned int cmd, unsigned int group, int value) {
                     break;
                 case 6:
                     ch = TOGGLE_AUTO;
-                    servers[id].conf.flag=!servers[id].conf.flag;
-                    rc=servers[id].conf.flag;
+                    servers[id].conf.aflag = !servers[id].conf.aflag;
+                    rc = servers[id].conf.aflag;
+                    break;
+                case 7:
+                    ch = TOGGLE_CONTINUE;
+                    servers[id].conf.cflag = !servers[id].conf.cflag;
+                    rc = servers[id].conf.cflag;
                     break;
                 default:
                     ch = 0;
